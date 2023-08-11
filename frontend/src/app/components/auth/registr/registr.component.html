@@ -13,5 +13,9 @@
 
     <button type="submit" [disabled]="form.disabled || form.invalid" class="btn btn-primary me-2">Создать аккаунт</button>
     <button class="btn btn-outline-secondary" type="button" routerLink="/login">Войти</button>
+
+    <div class="d-block" [ngClass]="{'valid-feedback': isValidFeedback, 'invalid-feedback': !isValidFeedback}">
+      {{feedback}}
+    </div>
   </form>
 </div>

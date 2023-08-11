@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from 'src/app/services/http.service';
 
 @Component({
@@ -10,6 +10,8 @@ export class FilesListComponent implements OnInit {
 
   files = []
   openId: number = null
+
+  @ViewChild('file') fileInput: ElementRef
 
   constructor(private httpService: HttpService) { }
 
@@ -24,4 +26,23 @@ export class FilesListComponent implements OnInit {
     else this.openId = id
   }
 
+  download(id, type) {
+    this.httpService.fetchById('downloads', id, {type}).subscribe(res => {
+    })
+  }
+
+  toggleFile() {
+    this.fileInput.nativeElement.click()
+  }
+
+  onFileUpload(event: any) {
+    const file = event.target.files[0]
+    const name = file.name
+
+    this.httpService.upload(file, {name}).subscribe(res => {
+      this.files.unshift(res)
+      console.log(res)
+    }, error => {console.log(error)})
+    
+  }
 }

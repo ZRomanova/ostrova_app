@@ -10,7 +10,7 @@ import { FilesListComponent } from './components/files-list/files-list.component
 const routes: Routes = [
   {path: '', component: MenuComponent, canActivate: [AuthGuard], children: [
     {path: '', redirectTo: '/files', pathMatch: 'full'},
-    {path: 'upload', component: UploadFormComponent},
+    // {path: 'upload', component: UploadFormComponent},
     {path: 'files', component: FilesListComponent}
   ]},
   {path: 'login', component: LoginComponent},

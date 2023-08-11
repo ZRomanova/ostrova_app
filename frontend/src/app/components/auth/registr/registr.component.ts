@@ -11,6 +11,8 @@ import { HttpService } from 'src/app/services/http.service';
 export class RegistrComponent implements OnInit {
 
   form: FormGroup
+  isValidFeedback = true
+  feedback = ''
 
   constructor(private httpService: HttpService, private router: Router) { }
 
@@ -23,15 +25,19 @@ export class RegistrComponent implements OnInit {
 
   onSubmit() {
     this.form.disable()
-    this.httpService.create('auth/registr', this.form.value).subscribe((res) => {
-      // this.router.navigate(['/'])
-      console.log(res)
+    this.httpService.create('auth/registr', this.form.value).subscribe(
+      res => {
+        this.isValidFeedback = true
+        this.feedback = res.message
+      },
       error => {
         // location.href = environment.url
-        console.log(error)
+        console.log(error.error.message)
+        this.isValidFeedback = false
+        this.feedback = error.error.message
         this.form.enable()
       }
-    })
+    )
   }
 
 }

@@ -16,6 +16,8 @@ require('./middleware/passport')
 app.use(passport.initialize());
 
 app.use('/uploads', express.static('uploads'))
+app.use('/downloads', express.static(path.resolve( __dirname, 'processing', 'downloads')))
+
 app.use('/api', apiRouter);
 // app.get('/', (req, res) => {
 //   res.sendFile(

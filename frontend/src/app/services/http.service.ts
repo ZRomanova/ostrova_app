@@ -20,8 +20,12 @@ export class HttpService {
     })
   }
 
-  fetchById(page: string, id: number): Observable<any> {
-    return this.http.get<any>(`${URL}/api/${page}/${id}`)
+  fetchById(page: string, id: number, params: any = {}): Observable<any> {
+    return this.http.get<any>(`${URL}/api/${page}/${id}`, {
+      params: new HttpParams({
+        fromObject: params
+      })
+    })
   }
 
   create(page: string, body: any): Observable<any> {

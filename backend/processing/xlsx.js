@@ -1,6 +1,6 @@
 const reader = require('xlsx')
 
-module.exports = (filepath) => {
+module.exports.readXlsx = (filepath) => {
   const file = reader.readFile(filepath)
     
   let data = []

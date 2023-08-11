@@ -4,7 +4,12 @@
       <th scope="col">#</th>
       <th scope="col">Название</th>
       <th scope="col">Дата загрузки</th>
-      <th scope="col">Скачать</th>
+      <th scope="col">
+        <input type="file" #file hidden  (change)="onFileUpload($event)">
+        <button type="button" class="btn btn-success" (click)="toggleFile()">
+          Добавить
+        </button>
+      </th>
     </tr>
   </thead>
   <tbody *ngIf="files">
@@ -18,9 +23,10 @@
             Cкачать
           </button>
           <ul class="dropdown-menu show mt-5" *ngIf="openId == item.id">
-            <li><a class="dropdown-item" download>Скачать исходный файл</a></li>
-            <li><a class="dropdown-item" download>Скачать JSON</a></li>
-            <li><a class="dropdown-item" download>Скачать CSV</a></li>
+            <li><a class="dropdown-item" href="http://localhost:5000/uploads/{{item.file_path}}" download>Скачать исходный файл</a></li>
+            <!-- <li><a class="dropdown-item" href="http://localhost:5000/downloads/{{item.id}}?type=json" download>Скачать JSON</a></li> -->
+            <li><a class="dropdown-item">Скачать JSON</a></li>
+            <li><a class="dropdown-item">Скачать CSV</a></li>
             <li><a class="dropdown-item" (click)="setOpenId(null)">Закрыть</a></li>
           </ul>
         </div>
