@@ -1,11 +1,12 @@
-const path = require('path');
+// const path = require('path');
 const db = require('../db')
 const xlsxModule = require('../processing/xlsx')
 const jsonModule = require('../processing/json')
+const pdfModule = require('../processing/pdf')
 
 module.exports.getData = async function(req, res) {
   try {
-    const data = await db.query('SELECT id, file_path, name, created FROM uploads WHERE user_id = $1 ORDER BY created DESC;', [req.user.id])
+    const data = await db.query('SELECT id, file_path, name, created, (data IS NOT NULL) AS is_data FROM uploads WHERE user_id = $1 ORDER BY created DESC;', [req.user.id])
     const files = data.rows
 
     res.status(200).json(files)
@@ -22,13 +23,16 @@ module.exports.uploadFile = async function(req, res) {
     let mime = req.file.filename.split('.')[1]
     let body 
 
-    switch (mime) {
+    switch (String(mime).toLocaleLowerCase()) {
       case 'xlsx': 
         body = xlsxModule.readXlsx(req.file.path)
         break
       case 'json':
         body = jsonModule.readJson(req.file.path)
         break
+      // case 'pdf':
+      //   body = pdfModule.readPdf(req.file.path)
+      //   break
 
       default:
         res.json({"message": "К сожалению, мы пока не умеем обрабатывать такой тип файла"})
@@ -38,7 +42,7 @@ module.exports.uploadFile = async function(req, res) {
     if (body) {
       let file = await db.query(`UPDATE uploads SET data = $2 WHERE id = $1 RETURNING id, name, file_path, created;`, [data.rows[0].id, body])
 
-      console.log(file)
+      // console.log(file)
       res.status(201).json(file.rows[0])
     }
     
@@ -49,9 +53,6 @@ module.exports.uploadFile = async function(req, res) {
 
 module.exports.download = async function(req, res) {
   try {
-x
-    res.json({"message": "OK"})
-    return
 
     const type = String(req.query.type).toLocaleLowerCase()
 
@@ -70,8 +71,10 @@ x
         break
     }
 
-
-    // console.log(filename)
+    if (filename)
+      res.json({filename})
+    else
+      res.status(400).json({"message": "Неизвестный тип файла"})
 
   } catch (e) {
     console.log(e)

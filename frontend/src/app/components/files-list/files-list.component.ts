@@ -28,7 +28,14 @@ export class FilesListComponent implements OnInit {
 
   download(id, type) {
     this.httpService.fetchById('downloads', id, {type}).subscribe(res => {
-    })
+      const anchor = document.createElement('a');
+      anchor.href = `http://localhost:5000/downloads/${res.filename}`;
+      anchor.target = "_blank"
+      anchor.download = res.filename;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    }, error => console.log(error))
   }
 
   toggleFile() {
