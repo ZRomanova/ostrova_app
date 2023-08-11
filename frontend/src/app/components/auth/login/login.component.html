@@ -1,0 +1,19 @@
+<div class="my-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="input-group mb-3">
+      <span class="input-group-text">Username *</span>
+      <input type="username" class="form-control" formControlName="username" autocomplete="on">
+    </div>
+
+    <div class="input-group mb-3">
+      <span class="input-group-text">Password *</span>
+      <input type="password" class="form-control" formControlName="password" autocomplete="current-password">
+    </div>
+
+    <button type="submit" [disabled]="form.disabled || form.invalid" class="btn btn-primary me-2">Войти</button>
+    <button class="btn btn-outline-secondary" type="button" routerLink="/registration">Создать аккаунт</button>
+  </form>
+</div>
+
+
