@@ -13,6 +13,10 @@
 
     <button type="submit" [disabled]="form.disabled || form.invalid" class="btn btn-primary me-2">Войти</button>
     <button class="btn btn-outline-secondary" type="button" routerLink="/registration">Создать аккаунт</button>
+
+    <div class="d-block invalid-feedback">
+      {{feedback}}
+    </div>
   </form>
 </div>
 

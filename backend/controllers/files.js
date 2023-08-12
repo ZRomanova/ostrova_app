@@ -40,7 +40,7 @@ module.exports.uploadFile = async function(req, res) {
     }
     
     if (body) {
-      let file = await db.query(`UPDATE uploads SET data = $2 WHERE id = $1 RETURNING id, name, file_path, created;`, [data.rows[0].id, body])
+      let file = await db.query(`UPDATE uploads SET data = $2 WHERE id = $1 RETURNING id, name, file_path, created, (data IS NOT NULL) AS is_data;`, [data.rows[0].id, body])
 
       // console.log(file)
       res.status(201).json(file.rows[0])
@@ -56,7 +56,7 @@ module.exports.download = async function(req, res) {
 
     const type = String(req.query.type).toLocaleLowerCase()
 
-    const data = await db.query('SELECT data, file_path FROM uploads WHERE id = $1;', [+req.params.id])
+    const data = await db.query('SELECT data, file_path FROM uploads WHERE id = $1 AND user_id = $2;', [+req.params.id, req.user.id])
 
 
     let json_data

@@ -11,6 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent implements OnInit {
 
   form: FormGroup
+  feedback = ''
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -24,12 +25,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.form.disable()
     this.authService.login(this.form.value).subscribe(() => {
-      this.router.navigate(['/'])
+      this.router.navigate(['/'])},
       error => {
         // location.href = environment.url
+        this.feedback = error.error.message
+        // console.log(error.error.message)
         this.form.enable()
       }
-    })
+    )
   }
 
 }

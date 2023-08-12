@@ -21,7 +21,7 @@ app.use('/downloads', express.static(path.resolve( __dirname, 'processing', 'dow
 app.use('/api', apiRouter);
 
 
-if (process.env.NODE_ENV === 'production' || true) {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(__dirname))
 
   const client = [
